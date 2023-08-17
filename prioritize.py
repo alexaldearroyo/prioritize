@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 # PRIORITIZE
 # Shell script para añadir y manipular los quehaceres más prioritarios
 
