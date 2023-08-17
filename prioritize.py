@@ -100,7 +100,7 @@ def main():
 
     if tasks:
         show_tasks(tasks)
-    print("-"*50 + "\n")
+    print("-"*50)
 
     while True:
         print("a --- Add a priority")
