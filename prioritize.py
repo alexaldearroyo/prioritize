@@ -28,6 +28,15 @@ def add_to_completed_file(task):
         file.write(task + "\n")
 
 
+def remove_from_tasks_file(tasks):
+    directory_path = os.path.expanduser("~/Library/Application Support/prioritize/")
+    tasks_file_path = os.path.join(directory_path, "tasks.txt")
+    
+    with open(tasks_file_path, "w") as file:
+        for task in tasks:
+            file.write(task + "\n")
+
+
 def complete_task(tasks, completed):
     show_tasks(tasks)
     idx = int(input("\nEnter the number of completed priority: ")) -1
@@ -35,6 +44,7 @@ def complete_task(tasks, completed):
         completed_task = tasks.pop(idx)
         completed.append(completed_task)
         add_to_completed_file(completed_task)
+        remove_from_tasks_file(tasks)
     else:
         print("Invalid index.")
 
@@ -47,17 +57,6 @@ def show_completed(completed):
 def clear_completed(completed): # Dar opcion que el usuario eliga el index de la tarea a eliminar
     completed.clear()
     print("\nCompleted priorities cleared\n")
-
-
-def save_tasks(tasks, completed):
-    with open("priorities.txt", "w") as file:
-        for task in tasks:
-            file.write(task + "\n")
-
-    with open("completed.txt", "w") as file:
-        for task in completed:
-                file.write(task + "\n")
-
 
 def load_tasks():
     tasks = []
@@ -104,7 +103,7 @@ def main():
         print("3. Mark priority as completed")
         print("4. Show completed priorities")
         print("5. Clear completed priorities") #posiblemente cambiar a poder eliminarlas una por una
-        print("6. Exit and save")
+        print("6. Exit program")
         option = input("\nChoose an option: ")
 
         if option == "1":
@@ -122,7 +121,6 @@ def main():
             clear_completed(completed)
             print()
         elif option == "6":
-            save_tasks(tasks, completed)
             print("\nPriorities saved. See you next time!\n")
             break
         else:
