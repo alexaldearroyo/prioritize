@@ -62,7 +62,7 @@ def clear_completed(completed): # Dar opcion que el usuario eliga el index de la
         pass
 
     completed.clear()
-    print("\nCompleted priorities cleared!")
+    print("\n*** Completed priorities cleared ***")
 
 def load_tasks():
     tasks = []
@@ -104,15 +104,19 @@ def main():
 
     while True:
         print("a --- Add a priority")
-        print("v --- Complete a priority")
-        print("c --- Show completed priorities")
-        print("o --- Clear completed priorities")
-        print("x --- Exit program")
+        if tasks:
+            print("v --- Complete a priority")
+        if completed:
+            print("c --- Show completed priorities")
+            print("o --- Clear completed priorities")
         if tasks:
             print("s --- Show priorities")
+        print("x --- Exit program")
+    
         option = input("\nChoose an option: ")
 
         if option == "s":
+            print()
             show_tasks(tasks)
             print("-"*50 + "\n")
         elif option == "a":
@@ -121,6 +125,8 @@ def main():
             print("-"*50)
         elif option == "v":
             complete_task(tasks, completed)
+            print()
+            print("*** Task completed ***")
             show_tasks(tasks)
             if tasks:
                 print("-"*50)
@@ -129,15 +135,14 @@ def main():
             print("-"*50)
             show_completed(completed)
             print("-"*50)
-            print()
         elif option == "o":
             clear_completed(completed)
-            print()
+            print("-"*50)
         elif option == "x":
             print("\nPriorities saved. See you next time!\n")
             break
         else:
-            print("\nInvalid option. Please, choose a valid option.")
+            print("\nInvalid option. Please, choose a valid option.\n")
 
 if __name__ == "__main__":
     main()
