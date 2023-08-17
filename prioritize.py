@@ -100,7 +100,7 @@ def main():
 
     if tasks:
         show_tasks(tasks)
-        print("-"*50 + "\n")
+    print("-"*50 + "\n")
 
     while True:
         print("a --- Add a priority")
@@ -122,7 +122,8 @@ def main():
         elif option == "v":
             complete_task(tasks, completed)
             show_tasks(tasks)
-            print("-"*50)
+            if tasks:
+                print("-"*50)
         elif option == "c":
             print()
             print("-"*50)
