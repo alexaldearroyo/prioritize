@@ -3,10 +3,12 @@
 
 import os
 
+
 def show_tasks(tasks):
     print("\nPriorities TO-DO:\n")
     for idx, task in enumerate(tasks, 1):
         print(f"{idx}. {task}")
+
 
 def add_task(tasks):
     task = input("\nEnter new priority: ")
@@ -17,13 +19,25 @@ def add_task(tasks):
     with open(tasks_file_path, "a") as file:
         file.write(task + "\n")
 
+
+def add_to_completed_file(task):
+    directory_path = os.path.expanduser("~/Library/Application Support/prioritize/")
+    completed_file_path = os.path.join(directory_path, "completed.txt")
+    
+    with open(completed_file_path, "a") as file:
+        file.write(task + "\n")
+
+
 def complete_task(tasks, completed):
     show_tasks(tasks)
     idx = int(input("\nEnter the number of completed priority: ")) -1
     if 0 <= idx < len(tasks):
-            completed.append(tasks.pop(idx))
+        completed_task = tasks.pop(idx)
+        completed.append(completed_task)
+        add_to_completed_file(completed_task)
     else:
         print("Invalid index.")
+
 
 def show_completed(completed):
      print("\nCompleted priorities: ")
@@ -34,6 +48,7 @@ def clear_completed(completed): # Dar opcion que el usuario eliga el index de la
     completed.clear()
     print("\nCompleted priorities cleared\n")
 
+
 def save_tasks(tasks, completed):
     with open("priorities.txt", "w") as file:
         for task in tasks:
@@ -42,6 +57,7 @@ def save_tasks(tasks, completed):
     with open("completed.txt", "w") as file:
         for task in completed:
                 file.write(task + "\n")
+
 
 def load_tasks():
     tasks = []
@@ -69,7 +85,7 @@ def load_tasks():
             completed = [line.strip() for line in file.readlines()]
 
     return tasks, completed
-###
+
 
 def main():
     tasks, completed = load_tasks()
