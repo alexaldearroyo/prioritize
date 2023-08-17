@@ -7,8 +7,7 @@ import os
 def show_tasks(tasks):
     print("-"*50)
     for idx, task in enumerate(tasks, 1):
-        print(f"{idx}. {task}")
-
+        print(f"\033[1m\033[30m\033[43m{idx}. {task}\033[0m")
 
 def add_task(tasks):
     task = input("\nEnter new priority: ")
