@@ -42,15 +42,29 @@ def load_tasks():
     tasks = []
     completed = []
 
-    if os.path.exists("tasks.txt"):
-        with open("tasks.txt", "r") as file:
-             tasks = [line.strip() for line in file.readlines()]
+    directory_path = os.path.expanduser("~/Library/Application Support/prioritize/")
+    if not os.path.exists(directory_path):
+        os.mkedirs(directory_path)
 
-    if os.path.exists("completed.txt"):
-         with open("completed.txt", "r") as file:
-              completed = [line.strip() for line in file.readlines()]
+    tasks_file_path = os.path.join(directory_path, "tasks.txt")
+    completed_file_path = os.path.join(directory_path, "completed.txt")
+
+    if not os.path.exists(tasks_file_path):
+        with open(tasks_file_path, 'w') as f:
+            pass
+    else:
+        with open(tasks_file_path, "r") as file:
+            tasks = [line.strip() for line in file.readlines()]
+
+    if not os.path.exists(completed_file_path):
+        with open(completed_file_path, 'w') as f:
+            pass
+    else:
+        with open(completed_file_path, "r") as file:
+            tasks = [line.strip() for line in file.readlines()]
 
     return tasks, completed
+###
 
 def main():
     tasks, completed = load_tasks()
