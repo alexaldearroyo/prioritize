@@ -3,39 +3,45 @@
 
 import os
 
+# Constants
+DIRECTORY_PATH = os.path.expanduser("~/Library/Application Support/prioritize/")
+TASKS_FILE_PATH = os.path.join(DIRECTORY_PATH, "tasks.txt")
+COMPLETED_FILE_PATH = os.path.join(DIRECTORY_PATH, "completed.txt")
 
+# Ensure the directory exists
+if not os.path.exists(DIRECTORY_PATH):
+    os.makedirs(DIRECTORY_PATH)
+
+
+# Display the current tasks in a numbered list with formatting.
 def show_tasks(tasks):
     print("-"*50)
     for idx, task in enumerate(tasks, 1):
         print(f"\033[1m\033[30m\033[43m{idx}. {task}\033[0m")
 
+# Add a new task to the list and save it to the tasks.txt file.
 def add_task(tasks):
     task = input("\nEnter new priority: ")
     tasks.append(task)
-    directory_path = os.path.expanduser("~/Library/Application Support/prioritize/")
-    tasks_file_path = os.path.join(directory_path, "tasks.txt")
+    tasks_file_path = TASKS_FILE_PATH
 
     with open(tasks_file_path, "a") as file:
         file.write(task + "\n")
 
-
+# Add a completed task to the completed.txt file.
 def add_to_completed_file(task):
-    directory_path = os.path.expanduser("~/Library/Application Support/prioritize/")
-    completed_file_path = os.path.join(directory_path, "completed.txt")
     
-    with open(completed_file_path, "a") as file:
+    with open(COMPLETED_FILE_PATH, "a") as file:
         file.write(task + "\n")
 
-
+# Rewrite the tasks.txt file with the current tasks.
 def remove_from_tasks_file(tasks):
-    directory_path = os.path.expanduser("~/Library/Application Support/prioritize/")
-    tasks_file_path = os.path.join(directory_path, "tasks.txt")
     
-    with open(tasks_file_path, "w") as file:
+    with open(TASKS_FILE_PATH, "w") as file:
         for task in tasks:
             file.write(task + "\n")
 
-
+# Mark a task as completed, remove it from tasks, and add it to completed.
 def complete_task(tasks, completed):
     show_tasks(tasks)
     idx = int(input("\nEnter the number of completed priority: ")) -1
@@ -47,45 +53,41 @@ def complete_task(tasks, completed):
     else:
         print("Invalid index.")
 
-
+# Display the completed tasks.
 def show_completed(completed):
      print("Completed priorities: ")
      for task in completed:
         print(f"- {task}")
 
+# Clear all completed tasks from the list and the completed.txt file.
 def clear_completed(completed): # Dar opcion que el usuario eliga el index de la tarea a eliminar
-    directory_path = os.path.expanduser("~/Library/Application Support/prioritize/")
-    completed_file_path = os.path.join(directory_path, "completed.txt")
 
-    with open(completed_file_path, "w") as file:
+    with open(COMPLETED_FILE_PATH, "w") as file:
         pass
 
     completed.clear()
     print("\n*** Completed priorities cleared ***")
 
+# Load tasks and completed tasks from their respective files.
 def load_tasks():
     tasks = []
     completed = []
 
-    directory_path = os.path.expanduser("~/Library/Application Support/prioritize/")
-    if not os.path.exists(directory_path):
-        os.makedirs(directory_path)
+    if not os.path.exists(DIRECTORY_PATH):
+        os.makedirs(DIRECTORY_PATH)
 
-    tasks_file_path = os.path.join(directory_path, "tasks.txt")
-    completed_file_path = os.path.join(directory_path, "completed.txt")
-
-    if not os.path.exists(tasks_file_path):
-        with open(tasks_file_path, 'w') as file:
+    if not os.path.exists(TASKS_FILE_PATH):
+        with open(TASKS_FILE_PATH, 'w') as file:
             pass
     else:
-        with open(tasks_file_path, "r") as file:
+        with open(TASKS_FILE_PATH, "r") as file:
             tasks = [line.strip() for line in file.readlines()]
 
-    if not os.path.exists(completed_file_path):
-        with open(completed_file_path, 'w') as file:
+    if not os.path.exists(COMPLETED_FILE_PATH):
+        with open(COMPLETED_FILE_PATH, 'w') as file:
             pass
     else:
-        with open(completed_file_path, "r") as file:
+        with open(COMPLETED_FILE_PATH, "r") as file:
             completed = [line.strip() for line in file.readlines()]
 
     return tasks, completed
