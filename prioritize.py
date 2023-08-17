@@ -5,7 +5,7 @@ import os
 
 
 def show_tasks(tasks):
-    print("\nPriorities TO-DO:\n")
+    print("-"*50)
     for idx, task in enumerate(tasks, 1):
         print(f"{idx}. {task}")
 
@@ -50,13 +50,19 @@ def complete_task(tasks, completed):
 
 
 def show_completed(completed):
-     print("\nCompleted priorities: ")
+     print("Completed priorities: ")
      for task in completed:
         print(f"- {task}")
 
 def clear_completed(completed): # Dar opcion que el usuario eliga el index de la tarea a eliminar
+    directory_path = os.path.expanduser("~/Library/Application Support/prioritize/")
+    completed_file_path = os.path.join(directory_path, "completed.txt")
+
+    with open(completed_file_path, "w") as file:
+        pass
+
     completed.clear()
-    print("\nCompleted priorities cleared\n")
+    print("\nCompleted priorities cleared!")
 
 def load_tasks():
     tasks = []
@@ -85,42 +91,48 @@ def load_tasks():
 
     return tasks, completed
 
-
+    
 def main():
     tasks, completed = load_tasks()
 
     print("\n")
-    print(" ____  ____  __  __  ____  __  ____  __  ____  ____")
-    print("(  _ \(  _ \(  )/  \(  _ \(  )(_  _)(  )(__  )(  __)")
-    print(" ) __/ )   / )((  O ))   / )(   )(   )(  / _/  ) _) ")
-    print("(__)  (__\_)(__)\__/(__\_)(__) (__) (__)(____)(____)")
-    print("\n")
+    print("P R I O R I T I Z E")
+
+    if tasks:
+        show_tasks(tasks)
+        print("-"*50 + "\n")
 
     while True:
-       
-        print("1. Show priorities")
-        print("2. Add priority")
-        print("3. Mark priority as completed")
-        print("4. Show completed priorities")
-        print("5. Clear completed priorities") #posiblemente cambiar a poder eliminarlas una por una
-        print("6. Exit program")
+        print("a --- Add a priority")
+        print("v --- Complete a priority")
+        print("c --- Show completed priorities")
+        print("o --- Clear completed priorities")
+        print("x --- Exit program")
+        if tasks:
+            print("s --- Show priorities")
         option = input("\nChoose an option: ")
 
-        if option == "1":
+        if option == "s":
             show_tasks(tasks)
-            print()
-        elif option == "2":
+            print("-"*50 + "\n")
+        elif option == "a":
             add_task(tasks)
-            print()
-        elif option == "3":
+            show_tasks(tasks)
+            print("-"*50)
+        elif option == "v":
             complete_task(tasks, completed)
-        elif option == "4":
-            show_completed(completed)
+            show_tasks(tasks)
+            print("-"*50)
+        elif option == "c":
             print()
-        elif option == "5":
+            print("-"*50)
+            show_completed(completed)
+            print("-"*50)
+            print()
+        elif option == "o":
             clear_completed(completed)
             print()
-        elif option == "6":
+        elif option == "x":
             print("\nPriorities saved. See you next time!\n")
             break
         else:
