@@ -4,13 +4,18 @@
 import os
 
 def show_tasks(tasks):
-    print("\nPriorities TO-DO:")
+    print("\nPriorities TO-DO:\n")
     for idx, task in enumerate(tasks, 1):
         print(f"{idx}. {task}")
 
 def add_task(tasks):
     task = input("\nEnter new priority: ")
     tasks.append(task)
+    directory_path = os.path.expanduser("~/Library/Application Support/prioritize/")
+    tasks_file_path = os.path.join(directory_path, "tasks.txt")
+
+    with open(tasks_file_path, "a") as file:
+        file.write(task + "\n")
 
 def complete_task(tasks, completed):
     show_tasks(tasks)
@@ -44,24 +49,24 @@ def load_tasks():
 
     directory_path = os.path.expanduser("~/Library/Application Support/prioritize/")
     if not os.path.exists(directory_path):
-        os.mkedirs(directory_path)
+        os.makedirs(directory_path)
 
     tasks_file_path = os.path.join(directory_path, "tasks.txt")
     completed_file_path = os.path.join(directory_path, "completed.txt")
 
     if not os.path.exists(tasks_file_path):
-        with open(tasks_file_path, 'w') as f:
+        with open(tasks_file_path, 'w') as file:
             pass
     else:
         with open(tasks_file_path, "r") as file:
             tasks = [line.strip() for line in file.readlines()]
 
     if not os.path.exists(completed_file_path):
-        with open(completed_file_path, 'w') as f:
+        with open(completed_file_path, 'w') as file:
             pass
     else:
         with open(completed_file_path, "r") as file:
-            tasks = [line.strip() for line in file.readlines()]
+            completed = [line.strip() for line in file.readlines()]
 
     return tasks, completed
 ###
